@@ -18,17 +18,25 @@ IIA 104
 
 MIDI messages are pretty much a 1:1 mapping from the MIDI spec. We use the IIB2 command:
 
-IIB2 X90 60 127    ; this is a note on command - MIDI channel 0, note 60, veleocity 127 - X91 would send to MIDI channel 2 etc
+IIB2 midi_command parameter1 parameter2
 
-Note off, control change, pitch bend, patch change, clock and MIDI transport messages are supported as well - IIB2 midi_command parameter 
+e.g. this is a note on command - MIDI channel 0, note 60, veleocity 127 - X91 would send to MIDI channel 2 etc:
+
+IIB2 X90 60 127    
+
+Note off, control change, pitch bend, patch change, clock and MIDI transport messages are supported as well:
+
+IIB2 midi_command parameter 
 
 I2C2MIDI has an auto note off timer to simplify MIDI handling and that approach is extended. To set note duration:
 
-IIB1 X70 channel duration ; channel 0 = set all channels, 1-16 to set individual channels. duration is in milliseconds
+IIB1 X70 channel duration 
 
-If you set note duration to 0 there will be no auto note off message - your script has to generate the note off messages.
+channel=0  - set note duration of all channels, 1-16 to set individual channels. duration is in milliseconds
 
-MIDI in supports CC messages only. This is intended for sending parameters to Teletype using an external CC controller.
+If you set note duration to 0 there will be no auto note off message - your script must generate the note off messages.
+
+MIDI In is intended for sending parameters to Teletype from an external CC controller so this implementation supports CC messages only.
 
 To set the MIDI channel to listen to:
 
