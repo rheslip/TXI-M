@@ -18,13 +18,13 @@ IIA 104
 
 MIDI messages are pretty much a 1:1 mapping from the MIDI spec. We use the IIB2 command:
 
-IIB2 X90 60 127    ; this is a note on command - MIDI channel 0, note 60, veleocity 127 - X91 would send to MIDI channel 2 etx
+IIB2 X90 60 127    ; this is a note on command - MIDI channel 0, note 60, veleocity 127 - X91 would send to MIDI channel 2 etc
 
-Note off, control change, pitch bend, patch change, clock and MIDI transport messages are supported as well - IIB2 <midi command> <parameter> 
+Note off, control change, pitch bend, patch change, clock and MIDI transport messages are supported as well - IIB2 midi_command parameter 
 
 I2C2MIDI has an auto note off timer to simplify MIDI handling and that approach is extended. To set note duration:
 
-IIB1 X70 <channel> <note duration in ms> ; channel 0 = set all channels, 1-16 to set individual channels
+IIB1 X70 channel duration ; channel 0 = set all channels, 1-16 to set individual channels. duration is in milliseconds
 
 If you set note duration to 0 there will be no auto note off message - your script has to generate the note off messages.
 
@@ -32,11 +32,11 @@ MIDI in supports CC messages only. This is intended for sending parameters to Te
 
 To set the MIDI channel to listen to:
 
-IIB1 X78 <channel>  ; channel 0 is OMNI, 1-15 for MIDI 1-16
+IIB1 X78 channel  ; channel 0 is OMNI, 1-15 for MIDI 1-16
 
 To read the last CC value that was sent:
 
-IIB1 X7b <CC#> 
+IIB1 X7b CC# 
 
 Only one CC message is stored so if you want to respond quickly to CC messages you have to poll the module frequently.
 
