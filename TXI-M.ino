@@ -424,10 +424,10 @@ void actOnCommand(byte cmd, byte out, int value, byte byte1, byte byte2, byte by
         blinkLED(3);
       break;
     case 0x70:    // command used to set note length for a channel in milliseconds- Telex command IIB1 X70 <channel> <milliseconds> if channel is 0 set all channels
-      chan = byte2 & 0xf; // 0 = set all channels, 1-16 set that specific channel
+      chan = byte2 & 0x1f; // 0 = set all channels, 1-16 set that specific channel
       int dur = abs((int16_t)(byte3 << 8 | byte4));    // must be positive 
       if (chan == 0 ) for (int i=0; i<16; ++i) noteDuration[i]=dur;
-      else noteDuration[chan] = dur;    // must be positive 
+      else noteDuration[(chan-1) & 0xf] = dur;    // duration must be positive 
       break;
     case 0x78:    // command used to set MIDI CC capture channel- Telex command IIB1 X78 <channel#>      
       controlchannel= byte2 &0x1f;  // 0 is omni mode, 1-16 filters only that channel
